@@ -584,6 +584,327 @@
       transform: translate3d(-50%, 0, 0) scale(1);
     }
 
+    /* 👍👍 del título — easter egg */
+    .hero-title-thumbs {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      user-select: none;
+      border-radius: 0.25em;
+      transition: filter 0.3s ease, transform 0.25s ease;
+    }
+
+    .hero-title-thumbs:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .hero-title-thumbs--egg-glow {
+      animation: title-thumbs-egg 2.6s ease-in-out;
+    }
+
+    @keyframes title-thumbs-egg {
+      0%, 100% {
+        filter: drop-shadow(0 0 0 transparent);
+        transform: scale(1);
+      }
+      25% {
+        filter: drop-shadow(0 0 14px rgba(253, 224, 71, 0.95))
+          drop-shadow(0 0 28px rgba(192, 132, 252, 0.65))
+          drop-shadow(0 0 40px rgba(125, 211, 252, 0.5));
+        transform: scale(1.06);
+      }
+      55% {
+        filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.85))
+          drop-shadow(0 0 36px rgba(253, 224, 71, 0.55));
+        transform: scale(1.03);
+      }
+    }
+
+    #hero-title.hero-title--egg-halo {
+      position: relative;
+    }
+
+    #hero-title.hero-title--egg-halo::after {
+      content: "";
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      top: -8px;
+      bottom: -8px;
+      border-radius: 20px;
+      pointer-events: none;
+      z-index: -1;
+      animation: title-halo-ring 2.4s ease-out forwards;
+      background: radial-gradient(
+        ellipse at 85% 50%,
+        rgba(253, 224, 71, 0.12) 0%,
+        rgba(192, 132, 252, 0.08) 40%,
+        transparent 70%
+      );
+    }
+
+    @keyframes title-halo-ring {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+      30% {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        transform: scale(1.02);
+      }
+    }
+
+    /* Colapso total — capas FX */
+    .collapse-fx {
+      position: fixed;
+      inset: 0;
+      z-index: 9989;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(
+        circle at 50% 42%,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(186, 230, 253, 0.22) 35%,
+        transparent 65%
+      );
+    }
+
+    .collapse-fx.collapse-fx--on {
+      animation: collapse-fx-burst 0.48s ease-out forwards;
+    }
+
+    @keyframes collapse-fx-burst {
+      0% {
+        opacity: 0;
+        transform: scale(1.1);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1);
+      }
+    }
+
+    .collapse-radial {
+      position: fixed;
+      inset: 0;
+      z-index: 9988;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(
+        circle at 50% 50%,
+        rgba(125, 211, 252, 0.35) 0%,
+        rgba(192, 132, 252, 0.12) 28%,
+        transparent 55%
+      );
+    }
+
+    .collapse-radial.collapse-radial--on {
+      animation: collapse-radial-expand 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes collapse-radial-expand {
+      0% {
+        opacity: 0;
+        transform: scale(0.2);
+      }
+      35% {
+        opacity: 0.85;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(2.2);
+      }
+    }
+
+    .collapse-particle-root {
+      position: fixed;
+      inset: 0;
+      z-index: 9991;
+      pointer-events: none;
+      overflow: visible;
+    }
+
+    .collapse-particle {
+      position: fixed;
+      margin: 0;
+      font-size: clamp(18px, 4vw, 28px);
+      line-height: 1;
+      pointer-events: none;
+      will-change: transform, opacity;
+      z-index: 9992;
+      opacity: 0.9;
+      animation: collapse-part-fly 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes collapse-part-fly {
+      to {
+        transform: translate3d(var(--tx), var(--ty), 0) rotate(540deg) scale(0.25);
+        opacity: 0;
+      }
+    }
+
+    body.body--mega-quake {
+      animation: mega-quake 0.58s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes mega-quake {
+      0%, 100% {
+        transform: translate3d(0, 0, 0);
+      }
+      15% {
+        transform: translate3d(-4px, 2px, 0) rotate(-0.12deg);
+      }
+      30% {
+        transform: translate3d(4px, -2px, 0) rotate(0.1deg);
+      }
+      45% {
+        transform: translate3d(-3px, -3px, 0);
+      }
+      60% {
+        transform: translate3d(3px, 2px, 0);
+      }
+      75% {
+        transform: translate3d(-2px, 1px, 0);
+      }
+    }
+
+    .shell.shell--mega-dim {
+      animation: mega-shell 1.05s ease-in-out both;
+    }
+
+    @keyframes mega-shell {
+      0%, 100% {
+        filter: none;
+        transform: scale(1);
+      }
+      35% {
+        filter: blur(5px) brightness(1.22);
+        transform: scale(0.982);
+      }
+      65% {
+        filter: blur(2px) brightness(1.08);
+        transform: scale(0.995);
+      }
+    }
+
+    /* Generador */
+    .generator-section {
+      padding: 26px;
+      margin-top: 4px;
+    }
+
+    .generator-head h2 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .generator-lead {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 820px;
+    }
+
+    .generator-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .btn-generator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(125, 211, 252, 0.4);
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(192, 132, 252, 0.12));
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+      font-family: inherit;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .btn-generator:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(125, 211, 252, 0.12);
+      border-color: rgba(192, 132, 252, 0.45);
+    }
+
+    .btn-generator-ghost {
+      display: inline-flex;
+      align-items: center;
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .btn-generator-ghost:hover {
+      color: var(--text);
+      border-color: rgba(125, 211, 252, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .generator-status {
+      min-height: 1.35em;
+      margin: 0 0 14px;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .generator-output {
+      overflow: auto;
+      max-height: min(52vh, 420px);
+      transition: box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+
+    .generator-output.generator-output--pulse {
+      animation: generator-pulse 0.55s ease;
+    }
+
+    @keyframes generator-pulse {
+      0%, 100% {
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: inset 0 0 0 rgba(125, 211, 252, 0);
+      }
+      50% {
+        border-color: rgba(125, 211, 252, 0.45);
+        box-shadow: inset 0 0 32px rgba(125, 211, 252, 0.12);
+      }
+    }
+
+    .generator-pre {
+      margin: 0;
+      color: #eaf3ff;
+      font-family: var(--mono);
+      font-size: clamp(0.68rem, 1.65vw, 0.8rem);
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
     .axioms-section {
       padding: 28px;
       margin-top: 4px;
@@ -893,6 +1214,21 @@
         animation: none !important;
       }
 
+      .hero-title-thumbs--egg-glow,
+      #hero-title.hero-title--egg-halo::after,
+      .collapse-fx.collapse-fx--on,
+      .collapse-radial.collapse-radial--on,
+      .collapse-particle,
+      body.body--mega-quake,
+      .shell.shell--mega-dim,
+      .generator-output.generator-output--pulse {
+        animation: none !important;
+      }
+
+      .collapse-particle {
+        display: none !important;
+      }
+
       .thumb-drop {
         display: none;
       }
@@ -1159,7 +1495,7 @@
 
     @media (max-width: 640px) {
       body { padding: 20px 12px 32px; }
-      .hero, .section, .side-card, .equation-card, .axioms-section { padding: 18px; }
+      .hero, .section, .side-card, .equation-card, .axioms-section, .generator-section { padding: 18px; }
       .eq-title { flex-direction: column; align-items: flex-start; }
       pre { font-size: 0.68rem; min-width: 760px; }
       .thumb-toast { bottom: 88px; font-size: 0.85rem; }
@@ -1167,6 +1503,9 @@
   </style>
 </head>
 <body>
+  <div id="collapse-fx" class="collapse-fx" aria-hidden="true"></div>
+  <div id="collapse-radial" class="collapse-radial" aria-hidden="true"></div>
+  <div id="collapse-particle-root" class="collapse-particle-root" aria-hidden="true"></div>
   <div id="thumb-rain" class="thumb-rain" aria-hidden="true"></div>
   <noscript>
     <style>.boot-overlay { display: none !important; }</style>
@@ -1187,7 +1526,7 @@
         <span class="badge">Colapso Thumbónico</span>
         <span class="badge">Aprobación Máxima</span>
       </div>
-      <h1 data-thumb-hint="20 de marzo · colapso cuántico" tabindex="0">La ecuación definitiva del <span class="accent">20 de marzo</span> culmina, inevitablemente, en <span class="gold">👍👍</span></h1>
+      <h1 id="hero-title" data-thumb-hint="20 de marzo · colapso cuántico" tabindex="0">La ecuación definitiva del <span class="accent">20 de marzo</span> culmina, inevitablemente, en <span id="hero-title-thumbs" class="hero-title-thumbs gold" tabindex="0" role="img" aria-label="Doble aprobación thumbónica, toque cinco veces para un easter egg">👍👍</span></h1>
       <p class="subtitle">
         Una página ceremonial para presentar la más absurda, extensa y solemne formulación de la física thumbónica moderna: una ecuación hipermatemática cuyo único destino estable, tras toda simetría, renormalización y colapso cuántico, es el estado final de doble aprobación.
       </p>
@@ -1271,6 +1610,27 @@
             </p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="generator-section card" aria-labelledby="generator-heading">
+      <div class="generator-head">
+        <h2 id="generator-heading">Generador de formulaciones thumbónicas</h2>
+        <p class="generator-lead">
+          Cada recalculo produce una formulación pseudo–física única, siempre convergente al estado observable <span class="gold">👍👍</span>.
+        </p>
+        <div class="generator-toolbar">
+          <button type="button" class="btn-generator" id="generator-btn">
+            Recalcular sistema
+          </button>
+          <button type="button" class="btn-generator-ghost" id="generator-copy-btn">
+            Copiar ecuación
+          </button>
+        </div>
+        <p class="generator-status" id="generator-status" role="status" aria-live="polite"></p>
+      </div>
+      <div class="generator-output equation-box" id="generator-output">
+        <pre class="generator-pre" id="generator-pre" tabindex="0">Pulsa «Recalcular sistema» para generar una nueva formulación no perturbativa.</pre>
       </div>
     </section>
 
@@ -1374,6 +1734,10 @@
           <span class="exp-tag" aria-hidden="true">▶</span>
           Ver evidencia audiovisual
         </a>
+        <button type="button" class="exp-btn" id="toggle-sound-btn" aria-pressed="true">
+          <span class="exp-tag" aria-hidden="true">♪</span>
+          Sonido de ingreso activado
+        </button>
         <button type="button" class="exp-btn" id="toggle-rain-btn" aria-pressed="true">
           <span class="exp-tag" aria-hidden="true">👍</span>
           Desactivar lluvia de 👍

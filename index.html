@@ -26,6 +26,45 @@
       --radius-sm: 18px;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
       --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --glow-a: rgba(125, 211, 252, 0.18);
+      --glow-b: rgba(192, 132, 252, 0.16);
+      --glow-c: rgba(134, 239, 172, 0.10);
+      --bg-end: #101c33;
+      --quantum-c1: rgba(125, 211, 252, 0.15);
+      --quantum-c2: rgba(192, 132, 252, 0.25);
+      --quantum-c3: rgba(134, 239, 172, 0.12);
+    }
+
+    html.theme-collapse {
+      --accent: #f0abfc;
+      --accent-2: #fb7185;
+      --ok: #fda4af;
+      --gold: #fde047;
+      --glow-a: rgba(244, 114, 182, 0.22);
+      --glow-b: rgba(232, 121, 249, 0.18);
+      --glow-c: rgba(251, 113, 133, 0.12);
+      --bg-end: #1a0f24;
+      --quantum-c1: rgba(244, 114, 182, 0.18);
+      --quantum-c2: rgba(251, 191, 36, 0.15);
+      --quantum-c3: rgba(251, 113, 133, 0.1);
+    }
+
+    html.theme-classic {
+      --accent: #93c5fd;
+      --accent-2: #a5b4fc;
+      --ok: #6ee7b7;
+      --gold: #e2e8f0;
+      --glow-a: rgba(147, 197, 253, 0.12);
+      --glow-b: rgba(165, 180, 252, 0.11);
+      --glow-c: rgba(148, 163, 184, 0.07);
+      --bg-end: #0f172a;
+      --quantum-c1: rgba(147, 197, 253, 0.12);
+      --quantum-c2: rgba(165, 180, 252, 0.14);
+      --quantum-c3: rgba(110, 231, 183, 0.08);
+    }
+
+    html {
+      transition: color 0.45s ease;
     }
 
     * { box-sizing: border-box; }
@@ -34,12 +73,13 @@
       margin: 0;
       min-height: 100%;
       background:
-        radial-gradient(circle at 15% 20%, rgba(125, 211, 252, 0.18), transparent 26%),
-        radial-gradient(circle at 85% 18%, rgba(192, 132, 252, 0.16), transparent 28%),
-        radial-gradient(circle at 50% 80%, rgba(134, 239, 172, 0.10), transparent 30%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2) 58%, #101c33);
+        radial-gradient(circle at 15% 20%, var(--glow-a), transparent 26%),
+        radial-gradient(circle at 85% 18%, var(--glow-b), transparent 28%),
+        radial-gradient(circle at 50% 80%, var(--glow-c), transparent 30%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2) 58%, var(--bg-end));
       color: var(--text);
       font-family: var(--sans);
+      transition: background 0.55s ease;
     }
 
     body {
@@ -64,6 +104,11 @@
       left: 0;
       animation: thumb-fall linear infinite;
       user-select: none;
+    }
+
+    .thumb-drop--burst {
+      animation-duration: 9s !important;
+      opacity: 0.11 !important;
     }
 
     @keyframes thumb-fall {
@@ -240,7 +285,7 @@
     /* Resaltado global “20 de marzo” */
     .state-march-glow .badge-row .badge:first-child,
     .state-march-glow .hero h1 .accent,
-    .state-march-glow .footer .accent,
+    .state-march-glow .site-footer__fine .accent,
     .state-march-glow .stat:first-child .value {
       text-shadow: 0 0 18px rgba(125, 211, 252, 0.75), 0 0 36px rgba(192, 132, 252, 0.4);
       animation: march-pulse 2.4s ease-in-out infinite;
@@ -265,10 +310,10 @@
       padding: 1px;
       background: linear-gradient(
         125deg,
-        rgba(125, 211, 252, 0.15),
-        rgba(192, 132, 252, 0.25),
-        rgba(134, 239, 172, 0.12),
-        rgba(125, 211, 252, 0.2)
+        var(--quantum-c1),
+        var(--quantum-c2),
+        var(--quantum-c3),
+        var(--quantum-c1)
       );
       background-size: 300% 300%;
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -286,8 +331,8 @@
       inset: 0;
       border-radius: inherit;
       background-image:
-        radial-gradient(circle at 20% 30%, rgba(125, 211, 252, 0.12) 0, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(192, 132, 252, 0.1) 0, transparent 35%);
+        radial-gradient(circle at 20% 30%, var(--quantum-c1) 0, transparent 40%),
+        radial-gradient(circle at 80% 70%, var(--quantum-c2) 0, transparent 35%);
       opacity: 0;
       transition: opacity 0.45s ease;
       pointer-events: none;
@@ -336,14 +381,312 @@
     @keyframes quantum-pulse {
       from {
         box-shadow:
-          0 0 0 0 rgba(125, 211, 252, 0.5),
+          0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent),
           var(--shadow);
       }
       to {
         box-shadow:
-          0 0 0 16px rgba(125, 211, 252, 0),
+          0 0 0 16px color-mix(in srgb, var(--accent) 0%, transparent),
           var(--shadow);
       }
+    }
+
+    .quantum-pulse-strong {
+      animation: quantum-pulse-strong 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0s 1;
+    }
+
+    @keyframes quantum-pulse-strong {
+      0% {
+        box-shadow:
+          0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
+          0 0 0 0 color-mix(in srgb, var(--accent-2) 35%, transparent),
+          var(--shadow);
+      }
+      100% {
+        box-shadow:
+          0 0 0 22px color-mix(in srgb, var(--accent) 0%, transparent),
+          0 0 0 38px color-mix(in srgb, var(--accent-2) 0%, transparent),
+          var(--shadow);
+      }
+    }
+
+    #equation-card.equation-rumble {
+      animation: equation-rumble 0.65s ease-in-out;
+    }
+
+    #equation-card.equation-rumble .equation-box {
+      animation: equation-glow 0.65s ease-in-out;
+    }
+
+    @keyframes equation-rumble {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      20% { transform: translate3d(-1px, 0.5px, 0); }
+      40% { transform: translate3d(1px, -0.5px, 0); }
+      60% { transform: translate3d(-0.5px, -0.5px, 0); }
+      80% { transform: translate3d(0.5px, 0.5px, 0); }
+    }
+
+    @keyframes equation-glow {
+      0%, 100% {
+        box-shadow: inset 0 0 0 rgba(255, 255, 255, 0);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+      50% {
+        box-shadow: inset 0 0 28px color-mix(in srgb, var(--accent) 18%, transparent);
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+    }
+
+    .card--quantum.easter-activated {
+      border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--gold) 25%, transparent),
+        0 0 48px color-mix(in srgb, var(--gold) 14%, transparent),
+        var(--shadow);
+    }
+
+    .card--quantum.easter-activated .big-symbol {
+      filter: drop-shadow(0 0 20px color-mix(in srgb, var(--gold) 65%, transparent))
+        drop-shadow(0 0 36px color-mix(in srgb, var(--accent-2) 35%, transparent));
+      transform: scale(1.06);
+    }
+
+    .card--quantum.easter-activated::after {
+      opacity: 1;
+      background-image:
+        radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--gold) 22%, transparent) 0, transparent 45%),
+        radial-gradient(circle at 70% 60%, color-mix(in srgb, var(--accent) 15%, transparent) 0, transparent 40%);
+    }
+
+    .btn-ghost-collapse {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .btn-ghost-collapse:hover {
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    }
+
+    .btn-ghost-collapse:active {
+      transform: scale(0.98);
+    }
+
+    .theme-switch {
+      display: grid;
+      gap: 8px;
+      margin: 4px 0 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .theme-switch__label {
+      margin: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .theme-switch__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .theme-chip {
+      flex: 1 1 auto;
+      min-width: 0;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .theme-chip[aria-checked="true"] {
+      color: var(--text);
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+    }
+
+    .thumb-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 96px;
+      z-index: 10002;
+      max-width: min(420px, calc(100vw - 32px));
+      padding: 12px 18px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--text);
+      background: linear-gradient(165deg, rgba(20, 32, 52, 0.96), rgba(10, 16, 28, 0.94));
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      transform: translate3d(-50%, 12px, 0) scale(0.97);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .thumb-toast--show {
+      opacity: 1;
+      transform: translate3d(-50%, 0, 0) scale(1);
+    }
+
+    .axioms-section {
+      padding: 28px;
+      margin-top: 4px;
+    }
+
+    .axioms-head {
+      margin-bottom: 22px;
+    }
+
+    .axioms-head h2 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+    }
+
+    .axioms-lead {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .axioms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .axiom-card {
+      padding: 20px 20px 20px 22px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .axiom-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+
+    .axiom-card__n {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .axiom-card p {
+      margin: 0;
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 0.96rem;
+    }
+
+    .share-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .share-chips__hint {
+      width: 100%;
+      margin: 0 0 4px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .share-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .share-chip:hover {
+      border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    .site-footer {
+      text-align: center;
+      padding: 28px 12px 8px;
+      margin-top: 8px;
+    }
+
+    .site-footer__brand {
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .site-footer__tag {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .site-footer__fine {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      opacity: 0.92;
+    }
+
+    .site-footer__fine .accent,
+    .site-footer__fine .ok {
+      font-weight: 600;
     }
 
     /* FAB + panel experiencia */
@@ -488,8 +831,11 @@
       .card--quantum:hover::before,
       .state-march-glow .badge-row .badge:first-child,
       .state-march-glow .hero h1 .accent,
-      .state-march-glow .footer .accent,
-      .state-march-glow .stat:first-child .value {
+      .state-march-glow .site-footer__fine .accent,
+      .state-march-glow .stat:first-child .value,
+      #equation-card.equation-rumble,
+      #equation-card.equation-rumble .equation-box,
+      .quantum-pulse-strong {
         animation: none !important;
       }
 
@@ -506,6 +852,10 @@
 
       .card--quantum:hover,
       .card--quantum:focus-within {
+        transform: none;
+      }
+
+      .card--quantum.easter-activated .big-symbol {
         transform: none;
       }
     }
@@ -723,13 +1073,6 @@
       line-height: 1.5;
     }
 
-    .footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      padding: 8px 0 2px;
-    }
-
     .accent {
       color: var(--accent);
     }
@@ -745,7 +1088,8 @@
     @media (max-width: 980px) {
       .hero-grid,
       .grid-2,
-      .stats {
+      .stats,
+      .axioms-grid {
         grid-template-columns: 1fr;
       }
 
@@ -761,9 +1105,10 @@
 
     @media (max-width: 640px) {
       body { padding: 20px 12px 32px; }
-      .hero, .section, .side-card, .equation-card { padding: 18px; }
+      .hero, .section, .side-card, .equation-card, .axioms-section { padding: 18px; }
       .eq-title { flex-direction: column; align-items: flex-start; }
       pre { font-size: 0.68rem; min-width: 760px; }
+      .thumb-toast { bottom: 88px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -779,6 +1124,7 @@
     </div>
   </div>
   <div id="thumb-tooltip" class="thumb-tooltip"></div>
+  <div id="thumb-toast" class="thumb-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
   <main class="shell">
     <section class="hero card">
@@ -808,7 +1154,7 @@
       </div>
 
       <div class="hero-grid">
-        <article class="equation-card card">
+        <article id="equation-card" class="equation-card card">
           <div class="eq-title">
             <h2>Ecuación no perturbativa de aprobación máxima</h2>
             <span class="eq-chip">Professional Definitive Edition</span>
@@ -853,6 +1199,9 @@
             <p>
               Todo el aparato formal converge al mismo destino físico y estético: el estado de máxima aprobación. No es una aproximación, no es una sospecha, no es una tendencia. Es el vacío fundamental de la teoría thumbónica.
             </p>
+            <button type="button" class="btn-ghost-collapse js-force-collapse">
+              Ejecutar colapso final
+            </button>
           </article>
 
           <article class="side-card card">
@@ -898,15 +1247,76 @@
       </article>
     </section>
 
-    <div class="footer">
-      Ecuación Thumbónica del <span class="accent">20 de marzo</span> · presentación solemne del colapso hacia <span class="ok">👍👍</span>
-    </div>
+    <section class="axioms-section card" aria-labelledby="axioms-heading">
+      <div class="axioms-head">
+        <h2 id="axioms-heading">Axiomas thumbónicos</h2>
+        <p class="axioms-lead">
+          Principios solemnes, falsamente académicos y operativamente indiscutibles dentro del marco cerimonial de la física thumbónica.
+        </p>
+      </div>
+      <div class="axioms-grid">
+        <article class="axiom-card">
+          <div class="axiom-card__n">Axioma I</div>
+          <p>Todo sistema suficientemente complejo converge a una aprobación observable.</p>
+        </article>
+        <article class="axiom-card">
+          <div class="axiom-card__n">Axioma II</div>
+          <p>El 20 de marzo define la frontera entre incertidumbre y estabilidad thumbónica.</p>
+        </article>
+        <article class="axiom-card">
+          <div class="axiom-card__n">Axioma III</div>
+          <p>Ninguna teoría físicamente consistente culmina en menos de 👍👍.</p>
+        </article>
+        <article class="axiom-card">
+          <div class="axiom-card__n">Axioma IV</div>
+          <p>El estado estable thumbónico es único, no degenerado y visualmente satisfactorio.</p>
+        </article>
+      </div>
+      <div class="share-chips">
+        <p class="share-chips__hint">Difusión cuántica</p>
+        <button type="button" class="share-chip js-copy" data-copy="url">
+          Copiar enlace
+        </button>
+        <button type="button" class="share-chip js-copy" data-copy="phrase">
+          Copiar frase científica
+        </button>
+        <button type="button" class="share-chip js-copy" data-copy="thumbs">
+          Copiar 👍👍
+        </button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand">Instituto de Física Thumbónica</div>
+      <div class="site-footer__tag">División 20 de Marzo · Protocolo de colapso aprobatorio</div>
+      <div class="site-footer__fine">
+        Ecuación Thumbónica del <span class="accent">20 de marzo</span> · presentación solemne del colapso hacia <span class="ok">👍👍</span>
+      </div>
+    </footer>
   </main>
 
   <nav class="experience-dock" aria-label="Opciones de experiencia thumbónica">
     <div id="experience-panel" class="experience-panel" hidden>
       <h4>Experiencia thumbónica</h4>
+      <div class="theme-switch" role="radiogroup" aria-label="Modo visual">
+        <p class="theme-switch__label">Modo visual</p>
+        <div class="theme-switch__row">
+          <button type="button" class="theme-chip" data-theme="lab" role="radio" aria-checked="true">
+            Laboratorio
+          </button>
+          <button type="button" class="theme-chip" data-theme="collapse" role="radio" aria-checked="false">
+            Colapso
+          </button>
+          <button type="button" class="theme-chip" data-theme="classic" role="radio" aria-checked="false">
+            Clásico
+          </button>
+        </div>
+      </div>
       <div class="experience-actions">
+        <button type="button" class="exp-btn js-force-collapse">
+          <span class="exp-tag" aria-hidden="true">⚡</span>
+          Forzar colapso
+        </button>
         <a
           class="exp-link"
           href="https://www.youtube.com/watch?v=YKTRk56r3I0"
@@ -927,6 +1337,18 @@
         <button type="button" class="exp-btn" id="focus-result-btn">
           <span class="exp-tag" aria-hidden="true">⎆</span>
           Ir al resultado 👍👍
+        </button>
+        <button type="button" class="exp-btn js-copy" data-copy="url">
+          <span class="exp-tag" aria-hidden="true">🔗</span>
+          Copiar enlace de la página
+        </button>
+        <button type="button" class="exp-btn js-copy" data-copy="phrase">
+          <span class="exp-tag" aria-hidden="true">❝</span>
+          Copiar frase científica
+        </button>
+        <button type="button" class="exp-btn js-copy" data-copy="thumbs">
+          <span class="exp-tag" aria-hidden="true">👍</span>
+          Copiar 👍👍
         </button>
       </div>
     </div>

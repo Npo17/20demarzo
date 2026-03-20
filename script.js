@@ -6,8 +6,6 @@
   var RAIN_MAX = 20;
   var STORAGE_RAIN = "thumbonica-rain";
   var STORAGE_THEME = "thumbonica-theme";
-  var COPY_PHRASE =
-    "Tras toda simetría, renormalización y colapso cuántico, el observable thumbónico converge de manera única al estado |👍👍⟩ — Ecuación Thumbónica del 20 de marzo.";
 
   var prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -107,52 +105,6 @@
     }, ms || 2200);
   }
 
-  function copyText(text, successMsg) {
-    function done(ok) {
-      showToast(ok ? successMsg : "No se pudo copiar al portapapeles.");
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        done(true);
-      }).catch(function () {
-        fallback();
-      });
-      return;
-    }
-    fallback();
-
-    function fallback() {
-      var ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      document.body.appendChild(ta);
-      ta.select();
-      try {
-        done(document.execCommand("copy"));
-      } catch (err) {
-        done(false);
-      }
-      document.body.removeChild(ta);
-    }
-  }
-
-  function initCopyActions() {
-    document.querySelectorAll(".js-copy").forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var kind = btn.getAttribute("data-copy");
-        if (kind === "url") {
-          copyText(window.location.href, "Enlace copiado.");
-        } else if (kind === "phrase") {
-          copyText(COPY_PHRASE, "Frase científica copiada.");
-        } else if (kind === "thumbs") {
-          copyText("👍👍", "👍👍 copiado.");
-        }
-      });
-    });
-  }
-
   function applyTheme(name) {
     var h = document.documentElement;
     h.classList.remove("theme-collapse", "theme-classic");
@@ -186,9 +138,110 @@
     });
   }
 
+  function pad2(n) {
+    return n < 10 ? "0" + n : String(n);
+  }
+
+  function nextMarch20MidnightFrom(date) {
+    var y = date.getFullYear();
+    var t = new Date(y, 2, 20, 0, 0, 0, 0);
+    if (date < t) return t;
+    return new Date(y + 1, 2, 20, 0, 0, 0, 0);
+  }
+
+  function isMarch20Local(date) {
+    return date.getMonth() === 2 && date.getDate() === 20;
+  }
+
+  function initCountdown() {
+    var digits = $("countdown-digits");
+    var sub = $("countdown-sub");
+    var root = $("countdown-root");
+    if (!digits) return;
+
+    function renderCells(diffMs) {
+      if (diffMs < 0) diffMs = 0;
+      var s = Math.floor(diffMs / 1000);
+      var days = Math.floor(s / 86400);
+      s %= 86400;
+      var h = Math.floor(s / 3600);
+      s %= 3600;
+      var m = Math.floor(s / 60);
+      var sec = s % 60;
+      digits.innerHTML =
+        '<div class="cd-cell"><span class="cd-cell__n">' +
+        days +
+        '</span><span class="cd-cell__u">Días</span></div>' +
+        '<div class="cd-cell"><span class="cd-cell__n">' +
+        pad2(h) +
+        '</span><span class="cd-cell__u">Horas</span></div>' +
+        '<div class="cd-cell"><span class="cd-cell__n">' +
+        pad2(m) +
+        '</span><span class="cd-cell__u">Min</span></div>' +
+        '<div class="cd-cell"><span class="cd-cell__n">' +
+        pad2(sec) +
+        '</span><span class="cd-cell__u">Seg</span></div>';
+    }
+
+    function tick() {
+      var now = new Date();
+      var target;
+      if (isMarch20Local(now)) {
+        if (root) root.classList.add("countdown-banner--today");
+        target = new Date(now.getFullYear() + 1, 2, 20, 0, 0, 0, 0);
+        if (sub) {
+          sub.textContent =
+            "Hoy es el 20 de marzo: colapso thumbónico local. Cuenta atrás hasta el próximo 20 de marzo (" +
+            target.getFullYear() +
+            "), medianoche.";
+        }
+      } else {
+        if (root) root.classList.remove("countdown-banner--today");
+        target = nextMarch20MidnightFrom(now);
+        if (sub) {
+          sub.textContent =
+            "Objetivo: 20 de marzo de " +
+            target.getFullYear() +
+            " · 00:00 (hora de tu dispositivo).";
+        }
+      }
+      renderCells(target - now);
+    }
+
+    tick();
+    window.setInterval(tick, 1000);
+  }
+
   function runForceCollapse() {
     var eq = $("equation-card");
+    var box = eq ? eq.querySelector(".equation-box") : null;
     var res = $("resultado-final");
+
+    if (eq) {
+      eq.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block: "center",
+      });
+    }
+
+    if (box) {
+      box.classList.remove("equation-flash");
+      void box.offsetWidth;
+      if (!prefersReducedMotion) {
+        box.classList.add("equation-flash");
+        window.setTimeout(function () {
+          box.classList.remove("equation-flash");
+        }, 1000);
+      } else {
+        box.style.boxShadow = "inset 0 0 28px rgba(125, 211, 252, 0.22)";
+        box.style.borderColor = "rgba(125, 211, 252, 0.5)";
+        window.setTimeout(function () {
+          box.style.boxShadow = "";
+          box.style.borderColor = "";
+        }, 650);
+      }
+    }
+
     if (!prefersReducedMotion && eq) {
       eq.classList.remove("equation-rumble");
       void eq.offsetWidth;
@@ -197,15 +250,24 @@
         eq.classList.remove("equation-rumble");
       }, 680);
     }
-    if (!prefersReducedMotion && res) {
-      res.classList.remove("quantum-pulse-strong");
+
+    if (res) {
+      res.classList.remove("quantum-pulse-strong", "collapse-highlight");
       void res.offsetWidth;
-      res.classList.add("quantum-pulse-strong");
+      res.classList.add("collapse-highlight");
       window.setTimeout(function () {
-        res.classList.remove("quantum-pulse-strong");
-      }, 1400);
+        res.classList.remove("collapse-highlight");
+      }, 950);
+      if (!prefersReducedMotion) {
+        res.classList.add("quantum-pulse-strong");
+        window.setTimeout(function () {
+          res.classList.remove("quantum-pulse-strong");
+        }, 1400);
+      }
     }
-    showToast("Colapso thumbónico confirmado.", 2600);
+
+    showToast("Colapso thumbónico confirmado.", 3000);
+
     if (!prefersReducedMotion) {
       appendRainBurst(12, 2800);
     }
@@ -213,7 +275,8 @@
 
   function initForceCollapse() {
     document.querySelectorAll(".js-force-collapse").forEach(function (btn) {
-      btn.addEventListener("click", function () {
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
         runForceCollapse();
       });
     });
@@ -248,7 +311,6 @@
     });
   }
 
-  /* Floating tooltip (desktop) + tap (mobile) */
   function initTooltips() {
     var tip = $("thumb-tooltip");
     if (!tip) return;
@@ -310,7 +372,6 @@
     });
   }
 
-  /* Experience FAB + panel */
   function initExperienceDock() {
     var fab = $("experience-fab");
     var panel = $("experience-panel");
@@ -385,7 +446,6 @@
     }
   }
 
-  /* Boot overlay */
   function initBoot() {
     var overlay = $("boot-overlay");
     var reduce =
@@ -416,7 +476,7 @@
     initExperienceDock();
     initBoot();
     initForceCollapse();
-    initCopyActions();
+    initCountdown();
     initResultEasterEgg();
   });
 })();

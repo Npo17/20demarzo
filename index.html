@@ -381,12 +381,12 @@
     @keyframes quantum-pulse {
       from {
         box-shadow:
-          0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent),
+          0 0 0 0 rgba(125, 211, 252, 0.55),
           var(--shadow);
       }
       to {
         box-shadow:
-          0 0 0 16px color-mix(in srgb, var(--accent) 0%, transparent),
+          0 0 0 16px rgba(125, 211, 252, 0),
           var(--shadow);
       }
     }
@@ -398,14 +398,14 @@
     @keyframes quantum-pulse-strong {
       0% {
         box-shadow:
-          0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
-          0 0 0 0 color-mix(in srgb, var(--accent-2) 35%, transparent),
+          0 0 0 0 rgba(125, 211, 252, 0.65),
+          0 0 0 0 rgba(192, 132, 252, 0.45),
           var(--shadow);
       }
       100% {
         box-shadow:
-          0 0 0 22px color-mix(in srgb, var(--accent) 0%, transparent),
-          0 0 0 38px color-mix(in srgb, var(--accent-2) 0%, transparent),
+          0 0 0 24px rgba(125, 211, 252, 0),
+          0 0 0 40px rgba(192, 132, 252, 0),
           var(--shadow);
       }
     }
@@ -432,9 +432,36 @@
         border-color: rgba(255, 255, 255, 0.12);
       }
       50% {
-        box-shadow: inset 0 0 28px color-mix(in srgb, var(--accent) 18%, transparent);
-        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+        box-shadow: inset 0 0 32px rgba(125, 211, 252, 0.22);
+        border-color: rgba(125, 211, 252, 0.45);
       }
+    }
+
+    .equation-box.equation-flash {
+      animation: equation-flash 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1;
+    }
+
+    @keyframes equation-flash {
+      0% {
+        box-shadow: inset 0 0 0 rgba(125, 211, 252, 0);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+      40% {
+        box-shadow:
+          inset 0 0 48px rgba(125, 211, 252, 0.28),
+          0 0 28px rgba(192, 132, 252, 0.18);
+        border-color: rgba(125, 211, 252, 0.55);
+      }
+      100% {
+        box-shadow: inset 0 0 0 rgba(125, 211, 252, 0);
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    #resultado-final.collapse-highlight {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      transition: outline-color 0.2s ease;
     }
 
     .card--quantum.easter-activated {
@@ -615,44 +642,70 @@
       font-size: 0.96rem;
     }
 
-    .share-chips {
+    .countdown-banner {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .countdown-banner__title {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .countdown-banner__digits {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 22px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      justify-content: flex-start;
+      align-items: stretch;
     }
 
-    .share-chips__hint {
-      width: 100%;
-      margin: 0 0 4px;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .cd-cell {
+      min-width: 4.5rem;
+      flex: 1 1 auto;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(10, 16, 28, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .cd-cell__n {
+      display: block;
+      font-family: var(--mono);
+      font-size: clamp(1.35rem, 3.5vw, 1.75rem);
       font-weight: 700;
-    }
-
-    .share-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.05);
       color: var(--text);
-      font-size: 0.84rem;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
     }
 
-    .share-chip:hover {
-      border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    .cd-cell__u {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .countdown-banner__sub {
+      margin: 12px 0 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .countdown-banner--today .cd-cell__n {
+      color: var(--ok);
     }
 
     .site-footer {
@@ -835,7 +888,8 @@
       .state-march-glow .stat:first-child .value,
       #equation-card.equation-rumble,
       #equation-card.equation-rumble .equation-box,
-      .quantum-pulse-strong {
+      .quantum-pulse-strong,
+      .equation-box.equation-flash {
         animation: none !important;
       }
 
@@ -1153,6 +1207,12 @@
         </p>
       </div>
 
+      <div class="countdown-banner" id="countdown-root" aria-live="polite">
+        <span class="countdown-banner__title">Cuenta regresiva al 20 de marzo</span>
+        <div class="countdown-banner__digits" id="countdown-digits"></div>
+        <p class="countdown-banner__sub" id="countdown-sub"></p>
+      </div>
+
       <div class="hero-grid">
         <article id="equation-card" class="equation-card card">
           <div class="eq-title">
@@ -1272,18 +1332,6 @@
           <p>El estado estable thumbónico es único, no degenerado y visualmente satisfactorio.</p>
         </article>
       </div>
-      <div class="share-chips">
-        <p class="share-chips__hint">Difusión cuántica</p>
-        <button type="button" class="share-chip js-copy" data-copy="url">
-          Copiar enlace
-        </button>
-        <button type="button" class="share-chip js-copy" data-copy="phrase">
-          Copiar frase científica
-        </button>
-        <button type="button" class="share-chip js-copy" data-copy="thumbs">
-          Copiar 👍👍
-        </button>
-      </div>
     </section>
 
     <footer class="site-footer">
@@ -1337,18 +1385,6 @@
         <button type="button" class="exp-btn" id="focus-result-btn">
           <span class="exp-tag" aria-hidden="true">⎆</span>
           Ir al resultado 👍👍
-        </button>
-        <button type="button" class="exp-btn js-copy" data-copy="url">
-          <span class="exp-tag" aria-hidden="true">🔗</span>
-          Copiar enlace de la página
-        </button>
-        <button type="button" class="exp-btn js-copy" data-copy="phrase">
-          <span class="exp-tag" aria-hidden="true">❝</span>
-          Copiar frase científica
-        </button>
-        <button type="button" class="exp-btn js-copy" data-copy="thumbs">
-          <span class="exp-tag" aria-hidden="true">👍</span>
-          Copiar 👍👍
         </button>
       </div>
     </div>

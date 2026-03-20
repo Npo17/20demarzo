@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="=M=M">
+  <defs>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="blur"/>
+      <feFlood flood-color="#7dd3fc" flood-opacity="0.55" result="cyan"/>
+      <feComposite in="cyan" in2="blur" operator="in" result="cyanGlow"/>
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur2"/>
+      <feFlood flood-color="#c084fc" flood-opacity="0.45" result="violet"/>
+      <feComposite in="violet" in2="blur2" operator="in" result="violetGlow"/>
+      <feMerge>
+        <feMergeNode in="violetGlow"/>
+        <feMergeNode in="cyanGlow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#0d1b2a"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#bg)"/>
+  <text
+    x="32"
+    y="36"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-size="22"
+    font-family="Segoe UI Emoji, Apple Color Emoji, Noto Color Emoji, sans-serif"
+    filter="url(#glow)">=M=M</text>
+</svg>

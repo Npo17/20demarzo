@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ecuación Thumbónica — 20 de marzo</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content="Ecuación Thumbónica del 20 de Marzo" />
+  <meta property="og:description" content="El universo colapsa inevitablemente en 👍👍" />
+  <meta property="og:type" content="website" />
   <style>
     :root {
       --bg-1: #07111f;
@@ -42,9 +46,473 @@
       display: flex;
       justify-content: center;
       padding: 40px 20px 60px;
+      position: relative;
+    }
+
+    /* Fondo: lluvia de 👍 (detrás del contenido) */
+    .thumb-rain {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .thumb-drop {
+      position: absolute;
+      top: -4vh;
+      left: 0;
+      animation: thumb-fall linear infinite;
+      user-select: none;
+    }
+
+    @keyframes thumb-fall {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(-8deg);
+      }
+      100% {
+        transform: translate3d(12px, 110vh, 0) rotate(14deg);
+      }
+    }
+
+    [data-thumb-hint] {
+      cursor: help;
+    }
+
+    .thumb-tooltip {
+      position: fixed;
+      z-index: 10001;
+      pointer-events: none;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #eaf6ff;
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.22), rgba(192, 132, 252, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      opacity: 0;
+      transform: translate(-50%, -100%) scale(0.96);
+      transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+      white-space: nowrap;
+    }
+
+    .thumb-tooltip--visible {
+      opacity: 1;
+      transform: translate(-50%, -100%) scale(1);
+    }
+
+    /* Arranque thumbónico */
+    .boot-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 40%, rgba(7, 17, 31, 0.92), rgba(5, 10, 20, 0.98));
+      backdrop-filter: blur(12px);
+      transition: opacity 0.7s ease, visibility 0.7s;
+    }
+
+    .boot-overlay--skip {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .boot-overlay--done {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .boot-inner {
+      text-align: center;
+      padding: 32px;
+    }
+
+    .boot-line {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .boot-line::after {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 1em;
+      margin-left: 4px;
+      background: var(--accent-2);
+      vertical-align: -2px;
+      animation: boot-caret 0.9s steps(2) infinite;
+    }
+
+    @keyframes boot-caret {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    .boot-thumbs {
+      margin-top: 22px;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      filter: drop-shadow(0 0 28px rgba(125, 211, 252, 0.35));
+      animation: boot-thumbs-in 0.9s ease 0.35s both;
+    }
+
+    @keyframes boot-thumbs-in {
+      from {
+        opacity: 0;
+        transform: scale(0.88);
+        filter: blur(6px);
+      }
+      to {
+        opacity: 0.95;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* CTA video */
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .video-cta {
+      margin: 0;
+    }
+
+    .video-cta__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.16), rgba(192, 132, 252, 0.12));
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+
+    .video-cta__link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 44px rgba(125, 211, 252, 0.15);
+      border-color: rgba(192, 132, 252, 0.45);
+    }
+
+    .video-cta__icon {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      font-size: 0.75rem;
+    }
+
+    .mobile-march-hint {
+      display: none;
+      margin: 12px 0 0;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.85;
+    }
+
+    .mobile-march-hint strong {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* Resaltado global “20 de marzo” */
+    .state-march-glow .badge-row .badge:first-child,
+    .state-march-glow .hero h1 .accent,
+    .state-march-glow .footer .accent,
+    .state-march-glow .stat:first-child .value {
+      text-shadow: 0 0 18px rgba(125, 211, 252, 0.75), 0 0 36px rgba(192, 132, 252, 0.4);
+      animation: march-pulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes march-pulse {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.15); }
+    }
+
+    /* Bloque resultado: hover cuántico */
+    .card--quantum {
+      position: relative;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+    }
+
+    .card--quantum::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(
+        125deg,
+        rgba(125, 211, 252, 0.15),
+        rgba(192, 132, 252, 0.25),
+        rgba(134, 239, 172, 0.12),
+        rgba(125, 211, 252, 0.2)
+      );
+      background-size: 300% 300%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .card--quantum::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(125, 211, 252, 0.12) 0, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(192, 132, 252, 0.1) 0, transparent 35%);
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+    }
+
+    .card--quantum:hover,
+    .card--quantum:focus-within {
+      border-color: rgba(125, 211, 252, 0.45);
+      box-shadow:
+        0 0 0 1px rgba(125, 211, 252, 0.2),
+        0 24px 64px rgba(0, 0, 0, 0.38),
+        0 0 48px rgba(125, 211, 252, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .card--quantum:hover::before,
+    .card--quantum:focus-within::before {
+      opacity: 1;
+      animation: quantum-border 5s linear infinite;
+    }
+
+    .card--quantum:hover::after,
+    .card--quantum:focus-within::after {
+      opacity: 1;
+    }
+
+    @keyframes quantum-border {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .card--quantum .big-symbol {
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), filter 0.45s ease;
+    }
+
+    .card--quantum:hover .big-symbol,
+    .card--quantum:focus-within .big-symbol {
+      transform: scale(1.04);
+      filter: drop-shadow(0 0 24px rgba(192, 132, 252, 0.35)) drop-shadow(0 0 36px rgba(125, 211, 252, 0.28));
+    }
+
+    .quantum-pulse {
+      animation: quantum-pulse 1.1s ease 0s 1;
+    }
+
+    @keyframes quantum-pulse {
+      from {
+        box-shadow:
+          0 0 0 0 rgba(125, 211, 252, 0.5),
+          var(--shadow);
+      }
+      to {
+        box-shadow:
+          0 0 0 16px rgba(125, 211, 252, 0),
+          var(--shadow);
+      }
+    }
+
+    /* FAB + panel experiencia */
+    .experience-dock {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      font-family: var(--sans);
+    }
+
+    .experience-fab {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.06));
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+
+    .experience-fab:hover {
+      transform: translateY(-2px);
+      border-color: rgba(125, 211, 252, 0.4);
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .experience-fab__glyph {
+      font-size: 1.1rem;
+      filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.4));
+    }
+
+    .experience-panel {
+      width: min(320px, calc(100vw - 36px));
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(165deg, rgba(15, 24, 40, 0.94), rgba(8, 14, 26, 0.92));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      transform-origin: bottom right;
+      animation: panel-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes panel-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .experience-panel[hidden] {
+      display: none;
+    }
+
+    .experience-panel h4 {
+      margin: 0 0 12px;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .experience-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .exp-btn,
+    .exp-link {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+
+    .exp-btn:hover,
+    .exp-link:hover {
+      background: rgba(125, 211, 252, 0.1);
+      border-color: rgba(125, 211, 252, 0.28);
+    }
+
+    .exp-btn:active,
+    .exp-link:active {
+      transform: scale(0.99);
+    }
+
+    .exp-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .exp-tag {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 640px) {
+      .experience-dock {
+        right: 12px;
+        bottom: 12px;
+      }
+
+      .mobile-march-hint {
+        display: block;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .thumb-drop,
+      .boot-line::after,
+      .boot-thumbs,
+      .card--quantum:hover::before,
+      .state-march-glow .badge-row .badge:first-child,
+      .state-march-glow .hero h1 .accent,
+      .state-march-glow .footer .accent,
+      .state-march-glow .stat:first-child .value {
+        animation: none !important;
+      }
+
+      .thumb-drop {
+        display: none;
+      }
+
+      .boot-overlay:not(.boot-overlay--skip) {
+        transition: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .card--quantum:hover,
+      .card--quantum:focus-within {
+        transform: none;
+      }
     }
 
     .shell {
+      position: relative;
+      z-index: 1;
       width: min(1200px, 100%);
       display: grid;
       gap: 24px;
@@ -300,17 +768,44 @@
   </style>
 </head>
 <body>
+  <div id="thumb-rain" class="thumb-rain" aria-hidden="true"></div>
+  <noscript>
+    <style>.boot-overlay { display: none !important; }</style>
+  </noscript>
+  <div id="boot-overlay" class="boot-overlay" role="status" aria-live="polite">
+    <div class="boot-inner">
+      <p class="boot-line">Inicializando colapso thumbónico...</p>
+      <div class="boot-thumbs" aria-hidden="true">👍👍</div>
+    </div>
+  </div>
+  <div id="thumb-tooltip" class="thumb-tooltip"></div>
+
   <main class="shell">
     <section class="hero card">
       <div class="badge-row">
-        <span class="badge">20 de marzo</span>
+        <span class="badge" data-thumb-hint="20 de marzo" tabindex="0">20 de marzo</span>
         <span class="badge">Colapso Thumbónico</span>
         <span class="badge">Aprobación Máxima</span>
       </div>
-      <h1>La ecuación definitiva del <span class="accent">20 de marzo</span> culmina, inevitablemente, en <span class="gold">👍👍</span></h1>
+      <h1 data-thumb-hint="20 de marzo · colapso cuántico" tabindex="0">La ecuación definitiva del <span class="accent">20 de marzo</span> culmina, inevitablemente, en <span class="gold">👍👍</span></h1>
       <p class="subtitle">
         Una página ceremonial para presentar la más absurda, extensa y solemne formulación de la física thumbónica moderna: una ecuación hipermatemática cuyo único destino estable, tras toda simetría, renormalización y colapso cuántico, es el estado final de doble aprobación.
       </p>
+      <p class="mobile-march-hint">Fecha de convergencia: <strong>20 de marzo</strong> · toca título o insignias en móvil</p>
+
+      <div class="hero-actions">
+        <p class="video-cta">
+          <a
+            class="video-cta__link"
+            href="https://www.youtube.com/watch?v=YKTRk56r3I0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="video-cta__icon" aria-hidden="true">▶</span>
+            Ver evidencia audiovisual
+          </a>
+        </p>
+      </div>
 
       <div class="hero-grid">
         <article class="equation-card card">
@@ -352,7 +847,7 @@
         </article>
 
         <div class="side-stack">
-          <article class="side-card card">
+          <article id="resultado-final" class="side-card card card--quantum" data-thumb-hint="Estado estable 👍👍" tabindex="0">
             <div class="big-symbol">👍👍</div>
             <h3>Estado final estable</h3>
             <p>
@@ -407,5 +902,46 @@
       Ecuación Thumbónica del <span class="accent">20 de marzo</span> · presentación solemne del colapso hacia <span class="ok">👍👍</span>
     </div>
   </main>
+
+  <nav class="experience-dock" aria-label="Opciones de experiencia thumbónica">
+    <div id="experience-panel" class="experience-panel" hidden>
+      <h4>Experiencia thumbónica</h4>
+      <div class="experience-actions">
+        <a
+          class="exp-link"
+          href="https://www.youtube.com/watch?v=YKTRk56r3I0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="exp-tag" aria-hidden="true">▶</span>
+          Ver evidencia audiovisual
+        </a>
+        <button type="button" class="exp-btn" id="toggle-rain-btn" aria-pressed="true">
+          <span class="exp-tag" aria-hidden="true">👍</span>
+          Desactivar lluvia de 👍
+        </button>
+        <button type="button" class="exp-btn" id="toggle-march-btn" aria-pressed="false">
+          <span class="exp-tag" aria-hidden="true">◎</span>
+          Resaltar el 20 de marzo
+        </button>
+        <button type="button" class="exp-btn" id="focus-result-btn">
+          <span class="exp-tag" aria-hidden="true">⎆</span>
+          Ir al resultado 👍👍
+        </button>
+      </div>
+    </div>
+    <button
+      type="button"
+      id="experience-fab"
+      class="experience-fab"
+      aria-expanded="false"
+      aria-controls="experience-panel"
+    >
+      <span class="experience-fab__glyph" aria-hidden="true">✦</span>
+      Opciones cuánticas
+    </button>
+  </nav>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
